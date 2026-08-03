@@ -1,0 +1,231 @@
+This section includes a detailed explanation of the results (only 25\% datapoints) obtained using the algorithms and dataset described in the methodology section. To ensure transparency, we used XAI techniques like LIME to explain how each model makes predictions and included two sample test case scenarios. Finally, we will evaluate the study's shortcomings and explore potential areas for improvement.
+
+Table-\ref{table_result} summarizes the Knowledge Distillation framework's performance across three stages: before feature removal, after feature removal, and after feature restoration. We conducted an evaluation based on accuracy, F1 Score, and loss for A2C, Q-Learning, and Meta-RL algorithms on 25\% and 30\% data subsets, comparing both Teacher and Student models. Before feature removal, Meta-RL delivers the best Teacher performance, achieving 99.704\% accuracy and 99.852\% F1 on the 30\% subset. For Student models, A2C leads with 99.602\% accuracy and 99.800\% F1 on the 25\% subset. Q-Learning performs well but slightly trails the other two. After feature removal, performance drops for some algorithms, particularly Meta-RL on the 30\% subset, where Teacher's accuracy drops to 85.336\% and Student accuracy to 79.471\%, showing its sensitivity to missing features. A2C remains relatively stable, with Student accuracy at 99.354\% (25\% subset) and 93.163\% (30\% subset). Q-Learning experiences moderate drops, with Student accuracy falling to 98.109\% on the 25\% subset. After feature restoration, most models regain near-original performance. Meta-RL Teacher scores return to 99.704\% accuracy and 99.852\% F1, while A2C Student scores hit 99.603\% accuracy and 99.801\% F1 on the 25\% subset. Overall, A2C proves the most stable across all stages, while Meta-RL performed better for the Teacher model only, particularly with limited datapoints.
+
+In Table-\ref{table_result}, we present the results obtained from multiple algorithms (A2C, Q-learning, and Meta-RL) explored in this research. However, our detailed discussion focuses on the outcomes and behavior of A2C.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}[!ht]
+\caption{Performance comparison of the Knowledge Distillation framework across three stages-(i) baseline with all features, (ii) after feature removal to simulate unlearning, and (iii) after feature restoration, utilizing A2C, Q-Learning, and Meta-RL}
+\label{table_result}
+\renewcommand{\arraystretch}{1.0}
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccc ccc}
+\hline \hline
+\textbf{Algorithm} & \textbf{Data(\%)} & \textbf{Model} & \textbf{Stage} & \textbf{Accuracy(\%)} & \textbf{F1 Score(\%)} & \textbf{Loss} \\ \hline
+
+% -------- A2C --------
+\multirow{12}{*}{\textbf{A2C}} 
+& \multirow{6}{*}{25} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.599 & 99.799 & 0.056 \\
+& & & After Unlearn  & 99.310 & 99.654 & 0.018 \\
+& & & After Restore  & 99.558 & 99.778 & 0.011 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & \textbf{99.602} & 99.800 & 0.025 \\
+& & & After Unlearn  & 99.354 & 99.676 & 0.013 \\
+& & & After Restore  & 99.603 & 99.801 & 0.009 \\ \cline{2-7}
+
+& \multirow{6}{*}{30} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.471 & 99.735 & 0.146 \\
+& & & After Unlearn  & 99.388 & 99.693 & 0.052 \\
+& & & After Restore  & 99.471 & 99.735 & 0.038 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & 93.314 & 96.540 & 0.048 \\
+& & & After Unlearn  & 93.163 & 96.459 & 0.132 \\
+& & & After Restore  & 93.314 & 96.540 & 0.095 \\ \hline
+
+% -------- Q-Learning --------
+\multirow{12}{*}{Q-Learning} 
+& \multirow{6}{*}{25} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.593 & 99.796 & 0.033 \\
+& & & After Unlearn  & 99.240 & 99.618 & 0.071 \\
+& & & After Restore  & 99.480 & 99.739 & 0.057 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & 99.240 & 99.618 & 0.071 \\
+& & & After Unlearn  & 98.109 & 99.045 & 0.136 \\
+& & & After Restore  & 89.797 & 99.395 & 0.114 \\ \cline{2-7}
+
+& \multirow{6}{*}{30} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.667 & 99.833 & 0.034 \\
+& & & After Unlearn  & 99.456 & 99.727 & 0.046 \\
+& & & After Restore  & 99.656 & 99.828 & 0.034 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & 99.456 & 99.727 & 0.046 \\
+& & & After Unlearn  & 99.181 & 99.588 & 0.052 \\
+& & & After Restore  & 99.295 & 99.646 & 0.040 \\ \hline
+
+% -------- Meta-RL --------
+\multirow{12}{*}{Meta-RL} 
+& \multirow{6}{*}{25} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.687 & 99.843 & 0.020 \\
+& & & After Unlearn  & 99.445 & 99.722 & 0.012 \\
+& & & After Restore  & 99.687 & 99.843 & 0.008 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & 99.019 & 99.507 & 0.048 \\
+& & & After Unlearn  & 98.912 & 99.453 & 0.069 \\
+& & & After Restore  & 99.019 & 99.507 & 0.044 \\ \cline{2-7}
+
+& \multirow{6}{*}{30} 
+& \multirow{3}{*}{Teacher} & Before Removal & 99.704 & 99.852 & 0.024 \\
+& & & After Unlearn  & 85.336 & 92.084 & 0.333 \\
+& & & After Restore  & 99.704 & 99.852 & 0.007 \\ \cline{3-7}
+& & \multirow{3}{*}{Student} & Before Removal & 98.931 & 99.463 & 0.067 \\
+& & & After Unlearn  & 79.471 & 88.556 & 0.125 \\
+& & & After Restore  & 98.931 & 99.463 & 0.039 \\ \hline\hline
+
+\end{tabular}%
+}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reinforcement Learning Results} 
+The teacher model demonstrated consistent performance improvement during its 20-epoch training process in the knowledge distillation framework. Initially, it achieved a training accuracy of 88.72\% with a total loss of 1.2470 and a remarkably high validation accuracy of 99.60\%, indicating strong generalization from the start. The model stabilized around 98.41\% training accuracy as training progressed, with a final loss of 0.2115 by epoch 20. Notably, in epoch 4, the validation loss dropped to 0.1869, and by epoch 10, it reached a low of 0.1410, showing stable learning with minimal overfitting. The final evaluation of the test set revealed an impressive accuracy of 99.59\%, an F1 score of 99.79\%, and a minimal loss of 0.0534, confirming the model’s robustness and high precision-recall balance. In Fig-\ref{fig5}, we visualized the training accuracy and loss over epochs to illustrate the model’s convergence. The confusion matrix in Fig-\ref{fig5.1} provides deeper insight into the model’s classification performance across classes.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{figure/fig-5.png}
+  \caption{Training accuracy and loss at each epoch of Teacher model}
+  \label{fig5}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/fig-5.1up.png}
+  \caption{Confusion matrix of Teacher model}
+  \label{fig5.1}
+\end{figure}
+
+The student model was trained over 17 epochs and exhibited consistent performance improvements throughout the training process. In the first epoch, it attained a training accuracy of 74.50\% with a total loss of 1.0584, while the validation accuracy was already remarkably high at 99.61\%, reflecting strong initial generalization. As training progressed, the model’s accuracy steadily improved, converging to a stable level of 97.31\% with a final loss of 0.4271 by epoch 17. The validation metrics also demonstrated reliable convergence, with the validation loss reaching its lowest value of 0.3350 in the final epoch, confirming minimal overfitting. Figure-\ref{fig6} illustrates the convergence trends of training and validation accuracy and loss across epochs. In the final evaluation, the student model achieved an impressive accuracy of 99.55\%, an F1 score of 99.78\%, and a minimal test loss of 0.0444. These results highlight the robustness and effectiveness of the knowledge distillation framework, where the student model successfully approximates the teacher model’s performance while maintaining a strong precision–recall balance. For further performance insights, the confusion matrix of the student model is provided in Fig-\ref{fig6.1}, offering a detailed view of class-level classification outcomes.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{figure/fig-6.png}
+  \caption{Training accuracy and loss at each epoch of Student model}
+  \label{fig6}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/fig-6.1up.png}
+  \caption{Confusion matrix of Student model}
+  \label{fig6.1}
+\end{figure}
+
+\section{Feature Unlearning Results}
+In this study, an unlearning technique was used to maintain data security. We first applied the unlearning process to the teacher and student models, which we named teacher unlearning and student unlearning, respectively.
+
+To strengthen data security, we applied post-hoc weight modification to the first layer of the teacher model. This adjustment ensures the model no longer relies on the removed feature, \textit{flgs} when making predictions. To evaluate the impact of this unlearning process, we re-assessed the model’s performance using accuracy and F1-score. The results showed that the unlearned teacher model achieved an accuracy of 99.35\% and an F1 score of 99.67\%, with a minimal loss of 0.0156. Unlike previous unlearning attempts that involved highly influential features, the limited performance drop, in this case, suggests that \textit{flgs} had a relatively smaller impact on overall predictions. Nonetheless, this outcome confirms that the model effectively eliminated reliance on the targeted feature. This method improves both model interpretability and data security while maintaining high performance. We have visualized the comparison between the original and unlearned teacher models in Fig-\ref{fig7}. Additionally, to provide visibility of class-wise prediction behaviour, we generated the confusion matrix of the unlearned teacher model, as shown in Fig-\ref{fig7.1}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/fig-7.png}
+  \caption{Comparison of Teacher and Teacher unlearn models: accuracy, loss and f1 score}
+  \label{fig7}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/fig-7.1up.png}
+  \caption{Confusion matrix of Teacher unlearn model}
+  \label{fig7.1}
+\end{figure}
+
+To improve data security in the student model, we applied post-hoc weight modification to the first layer of the network. To evaluate the impact of this adjustment, we re-assessed the model using accuracy and F1-score. The results showed that the unlearned student model achieved a test accuracy of 99.35\% and an F1 score of 99.67\%, with a total loss of 0.0213. The minimal decrease in both metrics indicates that the model successfully unlearned the influence of the removed feature \textit{flgs}, which had a relatively limited effect on its decision-making. This unlearning approach maintains high performance while improving interpretability and data privacy. We have visualized the performance comparison between the original and unlearned student models in figure-\ref{fig8}. Additionally, to highlight the class-wise behaviour of the unlearned model, we generated its confusion matrix as shown in fig-\ref{fig8.1}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/fig-8.png}
+  \caption{Comparison of Student and Student unlearn models: accuracy, loss and f1 score}
+  \label{fig8}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/fig-8.1up.png}
+  \caption{Confusion matrix of Student unlearn model}
+  \label{fig8.1}
+\end{figure}
+
+Nevertheless, to check the robustness of the overall framework, we restored the feature flags we had previously removed and reevaluated both the teacher and student models. After restoring the original weights and biases, the teacher model reached an accuracy of 99.59\% and an F1 score of 99.79\%, with a very low loss of 0.0099. The student model also performed similarly well, with an accuracy of 99.55\%, an F1 score of 99.77\%, and a loss of 0.0128. These results show that the unlearning process is fully reversible and does not cause any permanent drop in performance. To clarify this, we visualized the confusion matrices for all three stages: before removing the feature, after removing the feature, and after restoring the feature; all together in one frame, as shown in fig-\ref{total_con}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\columnwidth]{figure/total_conv2.png}
+  \caption{Confusion matrices for all three stages: before removing the feature, after removing the feature, and after restoring the feature}
+  \label{total_con}
+\end{figure}
+
+\section{XAI: Teacher, Student and Post‑Unlearning}
+We have applied Explainable AI (XAI) using LIME (Local Interpretable Model-agnostic Explanations) for the model's transparency and visualized which features impacted the most in making such a prediction. We have selected test instance 100 and this instance is an attack traffic.
+
+Using the Teacher model, we have visualized the test case in figure-\ref{fig9}. In the figure-\ref{fig9} illustrates that the teacher model identified test case 100 as an attack with a 100\% probability. The feature value highlights feature contributions, with the \textit{state} and \textit{flags} having the highest impact. Other features like daddr, seq, sport, ete., contribute a little, while most others have minimal effects. Additionally, in fig-\ref{fig9.1}, we have visualized the top 12 feature impacts.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/teacher.png}
+  \caption{XAI interpretation of the Teacher model’s prediction for an attack case}
+  \label{fig9}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/w_teacher.png}
+  \caption{XAI interpretation of top 12 features impacts for the Teacher model}
+  \label{fig9.1}
+\end{figure}
+
+We applied Lime on the Student model to show both test scenarios in figure-\ref{fig10}. Figure-\ref{fig10} shows that the model identified test case 100 as an attack with 97\% probability, with the \textit{state} and \textit{flags} having the highest impact. Other features, such as daddr, stddev, seq etc., make a minor contribution. In fig-\ref{fig10.1}, we have visualized the top 12 feature impacts of the Student model.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/student.png}
+  \caption{XAI interpretation of the Student model’s prediction for an attack case}
+  \label{fig10}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/w_student.png}
+  \caption{XAI interpretation of top 12 features impacts for the Student model}
+  \label{fig10.1}
+\end{figure}
+
+Figure-\ref{fig11} represents the prediction of test case-100 of the teacher unlearned model using LIME for interpretability. The model predicts a attack with a probability of 100\%. Feature contributions indicate that, \textit{state} and \textit{daddr} influenced the decision the most (as second most dominated feature remove by unlearning technique). However, their impact was not strong enough to alter the classification. Most other features contributed minimally, confirming that the unlearning process did not compromise the model's decision-making. In fig-\ref{fig11.1}, we have visualized the top 12 feature impacts of the Teacher Unlearn model.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/teacher_un.png}
+  \caption{XAI interpretation of the Teacher Unlearn model’s prediction for an attack case}
+  \label{fig11}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/w_teacher_un.png}
+  \caption{XAI interpretation of top 12 features impacts for the  Teacher Unlearn}
+  \label{fig11.1}
+\end{figure}
+
+
+Figure-\ref{fig12} represents the prediction of test case-100 of the student unlearning model using LIME for interpretability. The model predicts a attack with a probability of 97\%. Feature contributions indicate that, \textit{state} and \textit{pkSeqID} influenced the decision the most (as second most dominated feature remove by unlearning technique). Other features contributed minimally, confirming that the unlearning process did not compromise the model's decision-making. In fig-\ref{fig12.1}, we have illiteratd  the top 12 feature impacts of the Student Unlearn model.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\columnwidth]{figure/student_un.png}
+  \caption{XAI interpretation of the Student Unlearn model’s prediction for an attack case}
+  \label{fig12}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\columnwidth]{figure/w_student_un.png}
+  \caption{XAI interpretation of top 12 features impacts for the  Student Unlearn}
+  \label{fig12.1}
+\end{figure}
+
+\section{Analysis}
+This paper presented a compact reinforcement-learning-based botnet detection model, integrating Explainable AI (XAI) and feature unlearning for enhanced security. A key strength is its application of knowledge distillation, enabling the deployment of an efficient student model while maintaining high accuracy (99.60\%) comparable to its teacher model (99.59\%). This lightweight approach ensures adaptability in resource-constrained environments, such as IoT devices, surpassing traditional ML-based intrusion detection systems that often require extensive computational resources. Furthermore, integrating XAI techniques like LIME enhances interpretability, addressing deep learning model's \textit{black-box} nature, a crucial factor for cybersecurity applications \cite{n7}. The integration of feature unlearning secure data privacy, a critical aspect in modern AI systems, aligns with recent advancements in machine unlearning \cite{n8}.
+
+Compared to benchmark models such as ensemble classifiers (e.g., LightGBM) and deep learning approaches like LSTM and RNN, this model exhibits competitive performance while emphasizing data privacy through feature unlearning. Unlike studies that rely on conventional feature engineering or lack a robust privacy-preserving mechanism, this research achieves an effective trade-off between detection accuracy and security compliance. Additionally, its reliance on the BoT-IoT dataset ensures a realistic assessment of cyberattack scenarios, further validating its practical applicability.
+
+The study has limitations that aim for further research. The model primarily focuses on the BoT-IoT dataset, which, while comprehensive, may not capture arising attack variations. Future work could extend its applicability to diverse datasets, ensuring more comprehensive generalizability. Refining advance attention based reinforcement unlearning methods to remove sensitive data dynamically in real time could improve adaptability in evolving threat landscapes. Enhancing the model’s resilience against adversarial attacks through robust feature selection and hybrid learning strategies remains another critical avenue for exploration \cite{n6}.
+
+\section{Discussion}
+To further check the robustness of our framework, we tested the overall framework with 30\% of the data instead of just the 25\% used earlier. As shown in table-\ref{table_result}, the teacher and student models performed very well even with the extra data (added 5 million data points). The accuracy, F1 score, and loss values stayed consistently strong at each stage, which includes before feature removal, after feature removal, and after restoring the feature. This shows that the models are accurate and scalable even with big data. For example, with 30\% of the data before feature removal, the teacher model reached 99.471\% accuracy and a 99.735\% F1 score, slightly higher than 25\% of the data. Even after removing or restoring the feature, the models gave highly accurate results. These findings confirm that the framework remains effective and scalable.
+
+In this study, we faced many challenges, among which highly imbalanced data distribution was one of the significant. The imbalanced data distribution made it especially challenging to maintain high recall and precision for the benign class, which contained far fewer samples than the attack classes. Nevertheless, our framework achieved consistently strong performance across all evaluation metrics, demonstrating both robustness and adaptability. Feature analysis revealed that the state feature was particularly dominant, exerting greater influence than other features and posing a risk of bias if not properly managed. One of the framework’s main strengths lies in its lightweight and scalable design, enabling efficient training and deployment even in resource-constrained environments. In addition, the ability to apply post-hoc feature unlearning without retraining gives it a distinct advantage over conventional models.Unlike prior work, Cer-FeaUn \cite{CerFeaUn} has demonstrated certified feature unlearning in federated learning, while RFUL \cite{RFUL} has addressed user-level unlearning and recovery in federated learning. In contrast, this paper applies unlearning to IoT botnet detection through distilled reinforcement learning with explainability. Together, these capabilities allowed our approach to outperform several existing network security models in terms of accuracy, flexibility, and privacy-awareness. Overall, the results confirm the practicality and effectiveness of the framework for real-world, dynamic IoT security scenarios.
