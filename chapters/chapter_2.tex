@@ -1,154 +1,89 @@
-Several related studies have already been conducted to detect Botnet network traffic. This section briefly summarizes some studies and their approaches to detecting Botnet network traffic.
+Several related studies have explored self-supervised learning (SSL) for speech representation, leading to significant advancements in automatic speech recognition (ASR) and other downstream tasks. This section summarizes these studies, focusing on the advancement of SSL techniques, the evolution of loss functions, foundation models for low-resource languages, and their specific application to Bengali speech.
 
-%Detecting Information Theft Attacks in the Bot-IoT Dataset [1]
-Leevy et al. \cite{n3} build a successful predictive machine learning model for detecting information theft attacks. This study used eight ML classifiers (four ensembles and four non-ensembles) and two evaluation metrics (AUC and AUPRC). The authors used only six features of the Bot-IoT dataset to get only specific insights about information theft attacks. The authors used 556 instances and other cutting-edge technologies, such as k-fold cross-validation, for training the model. Based on AUC and AUPRC results, the ensemble classifiers performed better than the non-ensemble classifiers. However, the LightGBM ensemble classifier performed top among all; it exhibited AUC results of 98\% and AUPRC of 99\%.
+The transition from supervised deep learning to self-supervised paradigms has fundamentally reshaped speech representation learning. As highlighted by Borgholt et al. \cite{borgholt2022brief}, SSL methods effectively mitigate the dependency on large, explicitly transcribed datasets by leveraging vast amounts of unlabeled data. This shift has made it increasingly viable to develop universal models that generalize across various acoustic domains, dialects, and low-resource scenarios, utilizing generative, contrastive, and predictive modeling approaches.
 
-%Towards the Development of Realistic Botnet Dataset in the Internet of Things for Network Forensic Analytics: Bot-IoT Dataset [2]
-Koroniotis et al. \cite{n4} proposed a dataset, Bot-IOT, to simulate different types of network attacks, such as probing attacks, DDoS, DoS, and Information theft. Authors build the dataset to address other datasets' drawbacks with accurate labeling and incorporate recent attacks. They captured one GByte raw packet to extract complete information on network features. They introduced 32 features and created ten other hybrid features for simulation and testing the dataset's accuracy. They also evaluated the reliability of the dataset using ML (SVM) and deep learning algorithms (RNN and LSTM). SVM performed best with a full-featured dataset and scored 99\% accurately, whereas RNN and LSTM performed 99\% accurately with the ten best features only.
+Central to the success of these SSL foundation models is the evolution of their underlying loss functions. Early approaches often relied on simple waveform or spectrogram reconstruction objectives (such as L1 or L2 loss). However, modern frameworks have introduced more sophisticated techniques. For instance, Cho et al. \cite{cho2022noncontrastive} demonstrated the efficacy of non-contrastive self-supervised learning for utterance-level information extraction, bypassing the need for complex negative sampling while achieving superior performance in downstream tasks. In the domain of speech enhancement, Close et al. \cite{close2023perceive} proposed using the perceptual distance between clean and noisy representations in self-supervised feature spaces directly as a loss function. This representation-based loss closely correlates with human intelligibility ratings and significantly outperforms traditional time-domain or signal-to-noise ratio (SNR) based loss functions. Furthermore, Sivaraman et al. \cite{sivaraman2021efficient} explored self-supervised data purification and contrastive learning regularizations for personalized, efficient speech enhancement, proving that tailored SSL objectives can greatly reduce computational complexity while maintaining high fidelity.
 
-%An Intrusion Detection System Using BoT-IoT
-Alosaimi et al. \cite{n5} developed a machine learning-based intrusion detection system to secure IOT applications. The authors used the BOT-IoT dataset and a combination of deep learning and machine learning algorithms to train and test the model. The authors only used four files of the dataset, containing only 5-6\% of the dataset. The first file contains only a DoS attack, the second one includes a DoS and DDoS attack, The third one contains two DDoS attacks, and The fourth one contains many attacks. They evaluated the results using accuracy, error rate, recall, and specificity. However, in the second database, the ensemble bag algorithm acquired an accuracy of 100\% at all levels of the database, while the decision tree obtained an accuracy of 100\% at all levels of the database in the third database. This study demonstrates remarkable improvements in intrusion detection, especially DoS attacks, compared to existing models.
+These advancements in self-supervised architectures and loss formulations have birthed massive foundation models. Hsu et al. \cite{hsu2021hubert} introduced HuBERT, which utilizes a masked prediction loss over hidden units. By clustering continuous inputs offline, HuBERT learns a combined acoustic and language model, achieving up to a 19\% relative word error rate (WER) reduction compared to earlier contrastive models like wav2vec 2.0. Similarly, Chen et al. \cite{chen2021wavlm} proposed WavLM, which jointly learns masked speech prediction and denoising objectives, establishing state-of-the-art robustness on the SUPERB benchmark.
 
-%A Novel Method for Malware Detection Using Audio Signal Processing Techniques
-Farrokhmanesh et al. \cite{n6} designed a new machine learning-based model for detecting malicious activity in computers and networks. The authors proposed their model, which is based on audio signal processing techniques. They represented binary bytes as audio signals and applied MIR techniques for detecting malware. The authors used 3400 samples containing both malware and benign, however, they used the VX Heavens dataset for malware and Windows XP files for benign. They used KNN, AdaBoost, and Random Forest classifiers, among them AdaBoost performed best in terms of accuracy (92.2\%). The authors demonstrated a lightweight novel model with good accuracy and is computationally efficient.
+While models like HuBERT and WavLM represent the cutting edge for high-resource languages, adapting them to low-resource languages remains challenging. Recent works have heavily focused on creating large-scale speech foundation models specifically for low-resource minority languages \cite{large_scale_minority} and exploring depth-aware adaptation strategies for efficient multilingual recognition \cite{adapting_where_it_matters}. These studies emphasize that while cross-lingual transfer from high-resource foundation models is beneficial, there is a critical need for efficient adaptation techniques that account for the unique phonetic characteristics and limited data availability of regional dialects. 
 
-%A survey of malware detection using deep learning
-Bensaoud et al. \cite{n7} arranged a survey to examine how deep learning (DL) detects malware across multiple operating systems, including MacOS, Windows, iOS, Android, and Linux. They investigate different Deep Learning techniques, including text and image classification, pre-trained models, and multi-task learning, to determine how well they detect malware software. The paper also highlights significant problems, such as defined benchmark datasets, the complexity of deep learning models, and their sensitivity to adversarial attacks. It also emphasizes the value of Explainable AI (XAI) in making these models more transparent and intelligible. This study provides valuable insights into malware detection techniques by testing eight deep-learning approaches on various datasets.
+Pushing the boundaries of multilingual pre-training, Babu et al. \cite{babu2021xlsr} introduced XLS-R, a massive cross-lingual speech representation model based on wav2vec 2.0 with up to 2 billion parameters. By training on nearly half a million hours of speech across 128 languages, XLS-R demonstrated that massive cross-lingual pre-training can significantly lower error rates across diverse low-resource languages. Building on this, Ogunremi et al. \cite{ogunremi2023multilingual} showed that fine-tuning wav2vec 2.0 XLSR for low-resource African languages with code-switching substantially outperforms traditional hybrid acoustic models trained from scratch on limited data. In the context of Indic languages, Holla et al. \cite{holla2022end} fine-tuned a large-scale self-supervised model for Sanskrit ASR, achieving state-of-the-art results compared to older methods. Similarly, Vaddepalli et al. \cite{vaddepalli2026multilingual} fine-tuned the Wav2Vec2-Large-XLSR-53 model with statistical language modeling to improve Telugu speech recognition, emphasizing the necessity of robust cross-lingual representations for agglutinative and phonetically complex languages.
 
-%Machine Unlearning: A Comprehensive Survey
-Wang et al. \cite{n8} discuss the concept of machine unlearning, which focuses on enabling a trained model to remove or “forget” certain data. Their survey reviews different approaches, ranging from straightforward methods like deleting data and retraining, to more sophisticated gradient-based techniques that adjust the model without full retraining. They compare these strategies in terms of efficiency, computational cost, and impact on model accuracy. The study also highlights the challenges of ensuring that unlearning is applied reliably while still maintaining overall model performance. It identifies gaps in existing research, such as the need for consistent benchmarks. This paper proposes future ideas for increasing the scalability and usability of unlearning in large-scale machine-learning applications.
+However, leveraging these massive models introduces severe computational bottlenecks, especially for low-resource deployment. To mitigate the prohibitive expense of full model fine-tuning, Chen et al. \cite{chen2024meta} developed a Meta-Adapter structure that enables quick and efficient parameter adaptation for low-resource languages without updating the entire foundation model. Addressing the computational cost of the pre-training phase itself, Zhang et al. \cite{zhang2023fast} proposed an unsupervised data selection method based on language similarity, saving 60\% of training steps while maintaining high performance. Furthermore, Lin et al. \cite{lin2022smaller} comprehensively analyzed the tradeoffs in compressing self-supervised speech Transformers through techniques like pruning and knowledge distillation, highlighting the ongoing struggle to balance model size, real-time inference speed, and accuracy in practical scenarios.
 
-%A Lightweight Malware Detection Model Based on Knowledge Distillation
-Miao et al. \cite{n9} propose DistillMal, a novel strategy for improving malware detection efficiency via a knowledge distillation architecture. The basic concept is to train a compact student network to replicate the performance of a more extensive, complex teacher network, resulting in a lightweight model suitable for deploying devices with limited resources. Extensive testing on two new datasets demonstrated that the student network performs similarly to the teacher model. The student model obtained 94.5\% detection accuracy, compared to 95\% for the teacher model, while lowering the number of parameters by 60\% and the inference time by 50\%. This demonstrates that DistillMal efficiently balances model size and detection accuracy. By leveraging knowledge distillation, the proposed method addresses the challenges of deploying large-scale deep learning models in environments with limited computational resources, such as mobile devices or IoT systems.
+Beyond standard speech recognition, self-supervised representations have proven highly effective for generating specialized embeddings in complex downstream applications. Fujita et al. \cite{fujita2023zero} proposed a zero-shot text-to-speech synthesis framework conditioned entirely on self-supervised speech representations, highlighting how disentangling rhythmic and acoustic features in the SSL latent space can dramatically improve the reproduction of unseen speaker characteristics. In the realm of demographic specialization, Lu et al. \cite{lu2022improving} demonstrated that fine-tuning adult self-supervised speech representations on as little as 5 hours of transcribed children’s speech can yield a recognition system that outperforms state-of-the-art models trained on 960 hours of adult speech, underlining the remarkable transferability and generalization of robust SSL embeddings across distinct acoustic domains.
 
-%Explainability in AI-based behavioral malware detection systems
-Galli et al. \cite{n10}, in their work "Explainability in AI-based behavioral malware detection systems," highlight the growing need for transparency in machine learning models that track behavior patterns to detect malicious software. To address this, they designed a detection model that incorporates interpretability tools such as SHapley Additive exPlanations (SHAP), which help show how individual features influence the model’s decisions. This allows cybersecurity professionals to see which behavioral indicators play the most important role in classifying software as malicious or benign. Their approach achieved high accuracy, demonstrating strong malware detection performance. By combining explainability with detection, the system not only improves threat response but also builds trust and supports regulatory requirements. The study underscores the importance of striking a balance between powerful detection capabilities and clear, understandable AI-driven insights.
+Focusing specifically on the Bengali language, researchers have predominantly investigated transfer learning from these massive multilingual models. Samin et al. \cite{samin2024banspeech} evaluated self-supervised wav2vec 2.0 against weakly supervised Whisper models on the multi-domain BanSpeech benchmark, concluding that cross-lingual pre-training is highly effective, though vulnerable to spontaneous speech degradation. Hossain et al. \cite{hossain2024enhancing} fine-tuned wav2vec 2.0 on OpenSLR and self-compiled datasets, achieving impressive WER (11.27\%) and Character Error Rate (CER) (6.03\%) for local speech-to-text conversion. Addressing environmental noise and dialectal diversity, Biswas et al. \cite{biswas2025unified} proposed a multi-stage fine-tuning strategy for WavLM, significantly outperforming standard fine-tuned models under low SNR conditions.
 
-%Machine Learning-Based Early Detection of IoT Botnets Using Network-Edge Traffic
-Kumar et al. \cite{n11} introduced EDIMA, a lightweight approach designed for early detection of IoT botnets at home network edge gateways. The framework combines traffic classification with Autocorrelation Function (ACF)-based testing to spot signs of bot activity. Their results show that EDIMA can accurately identify bot scanning and command-and-control (CnC) traffic, achieving a detection rate of 98\% while maintaining a low rate of false positives. As the number of IoT devices rises, their performance stays strong. When authors use a Raspberry Pi, EDIMA exhibits short detection delays and low resource usage. The technology works better than current botnet-related traffic detection techniques. Furthermore, there is no appreciable processing penalty when EDIMA is implemented in real-time on edge devices. The technique provides scalable and efficient security against botnet threats in IoT environments.
+Despite these successes, the predominant reliance on fine-tuning massive models (ranging from hundreds of millions to billions of parameters) imposes significant computational overhead. These models are not inherently optimized from the ground up for the specific phonological intricacies of Bengali. This underscores a prominent research gap: the development of a highly compact, dedicated foundation model trained entirely from scratch on Bengali datasets using advanced SSL objectives. 
 
-%PAIRED: An Explainable Lightweight Android Malware Detection System
-To effectively identify Android malware and provide results that can be explained, the paper "PAIRED: An Explainable Lightweight Android Malware Detection System" introduces PAIRED \cite{n12}. To find malicious programs, PAIRED combines machine learning and static analysis methods. The system's ability to differentiate between dangerous and benign programs is demonstrated by its 94\% detection accuracy. Furthermore, PAIRED is appropriate for deployment on devices with constrained computing capabilities due to its lightweight architecture, which guarantees that it uses few resources. By using explainable AI algorithms, consumers may comprehend the characteristics that go into a detection judgment. The increasing security threats brought on by the extensive use of Android smartphones are addressed by PAIRED, which provides both explainability and excellent detection rates.
+Table-\ref{lit_summary} presents a comprehensive comparative overview of the discussed benchmark studies, highlighting their datasets, model architectures, loss functions/objectives, and key performance outcomes.
 
-%Assessing LLMs in malicious code deobfuscation of real-world malware campaigns
-Patsakis et al. \cite{n13} investigated the use of Large Language Models (LLMs) for deobfuscating malicious code, focusing on the Emotet malware campaign. Their study tested four different LLMs to see how well they could interpret and simplify obfuscated code. The results showed that, although the models struggled with more advanced obfuscation techniques, they were able to successfully recover parts of malicious payloads, reaching accuracy levels of up to 85\%. These findings suggest that LLMs could become a valuable tool for malware analysis, though further refinement is needed before they can fully meet the challenges of modern cybersecurity threats.
-
-%A privacy-enhanced framework with deep learning for botnet detection,
-Wu et al. \cite{n14} introduced a privacy-enhanced deep learning framework for botnet detection, with a strong emphasis on preventing privacy leakage. Their method trains a feature extractor that masks sensitive information in network traffic while still capturing features relevant to botnet behavior. To achieve this, they employ a privacy-adversarial algorithm based on mutual information, reducing the link between private data and the anonymized features. The framework also incorporates federated learning, which trains the feature extractor across multiple users, further strengthening privacy by keeping data decentralized. For detection, network traffic is converted into grayscale images and analyzed using a combination of Self-Attention Networks, CNNs, and Bi-LSTM models. Evaluation on the ISCX-2014 and CTU-13 datasets showed strong results: 100\% accuracy and F1-score on CTU-13, and 98.44\% accuracy with a 98.95\% F1-score on ISCX-2014 without federated learning. Although accuracy dropped slightly when federated learning was applied (96.88\% accuracy and 97.92\% F1), it provided substantial privacy benefits. Overall, the framework outperformed several state-of-the-art methods, striking an effective balance between strong privacy guarantees and high detection accuracy.
-
-% Reinforcement Learning for IoT Security: A Comprehensive Survey
-Uprety et al. \cite{n15} present a comprehensive review of how reinforcement learning (RL) and deep reinforcement learning (DRL) can be applied to enhance IoT security. It shows how RL can help learn the best security policies through interactions between an agent and its environment, even with little prior knowledge. The paper also breaks down major IoT threats like DoS or DDoS attacks, jamming, and spoofing and explains how RL-based methods can tackle each. Some examples include using multi-agent RL to defend against DDoS attacks, DRL for power control to resist jamming and Q-learning for adaptively detecting spoofing. In cyber-physical systems like smart grids and smart transportation, RL is also used to model attackers and defenders so threats can be detected and handled early. The survey shows that RL and DRL techniques are more adaptable, faster, and resilient than traditional methods. However, challenges remain, such as dealing with high-dimensional data, limited observability, coordination between multiple agents, and defending against attacks that target the RL system. The authors emphasize the need for more research to make these methods scalable and practical for real-world use.
-
-%Asynchronous Advantage Actor-Critic (A3C) Learning for Cognitive Network Security
-Muhati et al. \cite{n16} proposes a new deep reinforcement learning-based network intrusion detection system (NIDS) using the Asynchronous Advantage Actor-Critic (A3C) algorithm to tackle modern network security challenges. The authors highlight that many AI-based NIDS struggle because they lack efficient, low-cost ways to collect and process network data, which limits adaptability to new threats. To address this, they use automated network scanning and open-source tools for better data collection. The core idea is an A3C-based NIDS that combines value prediction and policy learning to detect both known and unknown attacks in dynamic environments. The system is tested on three benchmark datasets and under simulated poisoning attacks for robustness. Large-scale simulations with 300,000 nodes mimic real-world conditions. Results show high accuracy of 98.68\% and the lowest false alarm rate compared to similar methods. The model remains stable and reliable across different settings, proving the strength of anomaly-based detection for evolving threats.
-
-Numerous studies have explored effective botnet traffic classification methods utilizing deep learning and AI frameworks. However, Table-\ref{lit_summary} presents a comparative overview of these research efforts, highlighting their contributions and limitations.
-
-% \renewcommand{\arraystretch}{1.2} % Row spacing
-% \begin{table*}[!ht]
-%     \caption{Summary of different studies}
-%     \centering
-%     \begin{tabular}{
-%         >{\raggedright\arraybackslash}m{0.5cm} 
-%         >{\raggedright\arraybackslash}m{2.5cm} 
-%         >{\raggedright\arraybackslash}m{2.5cm} 
-%         >{\raggedright\arraybackslash}m{3.6cm} 
-%         >{\raggedright\arraybackslash}m{1.2cm} 
-%         >{\raggedright\arraybackslash}m{1.2cm}
-%         >{\raggedright\arraybackslash}m{3.6cm}
-%     }
-%     \hline \hline
-%     \multicolumn{1}{c}{\textbf{Ref.}} &
-%     \multicolumn{1}{c}{\textbf{Dataset}} &
-%     \multicolumn{1}{c}{\textbf{Feature}} &
-%     \multicolumn{1}{c}{\textbf{Model}} &
-%     \multicolumn{1}{c}{\textbf{Unlearning}} &
-%     \multicolumn{1}{c}{\textbf{KD}} &
-%     \multicolumn{1}{c}{\textbf{Accuracy}}  \\ \hline
-
-%     \cite{n3} & Bot-IoT (5\%; Normal \& Information Theft classes) & 37 features & CatBoost, LightGBM, XGBoost, Random Forest, Decision Tree, Logistic Regression, Naive Bayes, MLP & N/A & N/A & Best: LightGBM AUC=0.987, AUPRC=0.994 ($\approx$98.34\% accuracy) \\
-
-%     \cite{n4} & Bot-IoT (5\% subset) & Original \& generated (10-best features selected via correlation \& joint entropy analysis) & SVM, RNN, LSTM & N/A & N/A & SVM (10-best): 88.37\%, \newline SVM (full): 99.99\%, \newline RNN (10-best/full): 99.74\%, \newline LSTM (10-best/full): 99.74\% \\
-
-%     \cite{n5} & Bot-IoT & 35 features & Decision Tree, Ensemble Bag, KNN, Linear Discriminant, SVM & N/A & N/A & DT: 99.99\%,\newline Ensemble Bag: 100\%,\newline KNN: 99.98\%,\newline SVM: 99.99\%,\newline LD: 100\% \\
-
-%     \cite{n6} & Custom Malware/Benign Dataset (3400 samples; PE and non-PE) & 34 features (26 from MFCC + Chromagram) & KNN, AdaBoostM1, Random Forest & N/A & N/A & KNN: 90.0\%, \newline AdaBoostM1: 92.2\%, \newline Random Forest: 92.0\% \\
-
-%     \cite{n7} & Malimg Dataset (grayscale/RGB malware images) & Grayscale and RGB images (converted from malware binaries) & EfficientNet, Inception V4, Xception, CapsNet & N/A & N/A & EffNet: 95.64\%, \newline Inception V4: 95.98\%, \newline Xception: 89.50\%, \newline CapsNet: 88.64\% \\
-
-%     \cite{n9} & VirusShare & 512 features (API sequence length) & MLP, TextCNN, Catak (BiLSTM), BERT-base, DistillBert, DistillMal & N/A & Teacher: BERT \newline Student: TextCNN & MLP: 83.5\% \newline TextCNN: 88.4\% \newline Catak (BiLSTM): 66.3\% \newline BERT-base: 89.2\% \newline DistillBert: 89.0\% \newline DistillMal: 89.1\% \\
-
-%     \cite{n10} & Mal-API-2019 & 128 (sequence length) & LSTM, BiLSTM, GRU, Attention, MultiHeadAttention & N/A & N/A & LSTM: 47.53\%, \newline BiLSTM: 52.88\%, \newline GRU: 47.69\%, \newline Attention: 52.18\%, \newline MultiHeadAttention: 47.69\% \\
-
-%     \cite{n11} & IoT-BPR-NSS Testbed \& UNSW IoT & 6 & Random Forest, SVM, Gaussian Naive Bayes & N/A & N/A & \textbf{Testbed:} RForest: 100\%, SVM: 99\%, GNB: 97\% \newline \textbf{UNSW IoT:} RForest: 100\%, SVM: 91\%, GNB: 92\% \\
-
-%     \cite{n12} & Drebin-215, Malgenome-215 \& CICMalDroid2020 & 35 & Random Forest, Logistic Regression, Decision Tree, Gaussian Naive Bayes, SVM & N/A & N/A & RF: Drebin-215: 98.07\%, Malgenome-215: 98.73\%, CICMalDroid2020: 97.98\% \\
-
-%     \cite{n13} & Emotet malware campaign (2,000 obfuscated PowerShell scripts; 2,869 URLs, 2,512 domains) & N/A (LLM prompt-based extraction) & GPT-4, Gemini Pro, Code Llama 34B Instruct, Mixtral 8x7B & N/A & N/A & \textbf{URL extraction accuracy}: GPT-4: 69.56\%, Gemini Pro: 36.84\%, Code Llama: 22.13\%, Mixtral: 11.59\%; \newline \textbf{Domain extraction accuracy}: GPT-4: 88.78\%, Gemini Pro: 55.99\%, Code Llama: 35.46\%, Mixtral: 24.92\% \\
-
-%     \cite{n14} & ISCX-2014 \& CTU-13 botnet traffic datasets & Raw traffic bytes (image-based input) & CNN + Bi-LSTM with privacy-adversarial feature extractor trained via mutual information minimization \& federated learning & N/A & N/A & \textbf{CTU-13}: 100\% accuracy/F1 (both FL and non-FL) \newline \textbf{ISCX-2014}: non-FL: Acc=98.44\%, F1=98.95; FL: Acc=96.88\%, F1=97.92 \\
-
-%     \cite{n16} & UNSW-NB15, AWID, NSL-KDD (combined; with 30\% poisoning attack simulation) & Network traffic features and packet-level metadata & Asynchronous Advantage Actor-Critic (A3C) deep reinforcement learning (actor-critic) & N/A & N/A & Accuracy: 98.68\%, Precision: 98.4\%, Recall: 98.9\%, FP rate: 1.59\% \\
-
-%     Di-RLU & Bot-IoT (25\% \& 30\% subset) & 34 features of network traffic & A2C, Q-Learning \& Meta RL & Post-hoc weight modification & Teacher: A2C \newline Student: A2C & Best: \textbf{A2C (25\% subset)} Accuracy=99.60\%, F1=99.80\% \\
-
-%     \hline \hline
-%     \end{tabular}
-%     \label{lit_summary}
-% \end{table*}
-
-\renewcommand{\arraystretch}{1.2} % Row spacing
+\renewcommand{\arraystretch}{1.4} % Row spacing
 \begin{table*}[!ht]
-    \caption{Summary of relevant benchmark studies and comparison}
+    \caption{Comprehensive Summary of Speech Representation Learning Benchmark Studies}
     \centering
     \scriptsize % reduce font size for IEEE style
     \resizebox{\textwidth}{!}{%
     \begin{tabular}{
-        >{\raggedright\arraybackslash}m{0.5cm} 
+        >{\raggedright\arraybackslash}m{1.0cm} 
         >{\raggedright\arraybackslash}m{2.5cm} 
         >{\raggedright\arraybackslash}m{2.5cm} 
-        >{\raggedright\arraybackslash}m{3.6cm} 
-        >{\raggedright\arraybackslash}m{1.2cm} 
-        >{\raggedright\arraybackslash}m{1.2cm}
-        >{\raggedright\arraybackslash}m{3.6cm}
+        >{\raggedright\arraybackslash}m{3.5cm} 
+        >{\raggedright\arraybackslash}m{2.0cm} 
+        >{\raggedright\arraybackslash}m{4.5cm}
     }
     \hline \hline
     \multicolumn{1}{c}{\textbf{Ref.}} &
     \multicolumn{1}{c}{\textbf{Dataset}} &
-    \multicolumn{1}{c}{\textbf{Feature}} &
-    \multicolumn{1}{c}{\textbf{Model}} &
-    \multicolumn{1}{c}{\textbf{Unlearning}} &
-    \multicolumn{1}{c}{\textbf{KD}} &
-    \multicolumn{1}{c}{\textbf{Accuracy}}  \\ \hline
+    \multicolumn{1}{c}{\textbf{Architecture}} &
+    \multicolumn{1}{c}{\textbf{Loss Function/Objective}} &
+    \multicolumn{1}{c}{\textbf{Target Language}} &
+    \multicolumn{1}{c}{\textbf{Performance/Result}}  \\ \hline
 
-    \cite{n3} & Bot-IoT (5\%; Normal \& Information Theft classes) & 37 features & CatBoost, LightGBM, XGBoost, Random Forest, Decision Tree, Logistic Regression, Naive Bayes, MLP & N/A & N/A & Best: LightGBM AUC=0.987, AUPRC=0.994 ($\approx$98.34\% accuracy) \\
+    \cite{borgholt2022brief} & Various Speech Corpora & Generative \& Contrastive & Multiple Unsupervised Objectives & Multilingual & Provided taxonomy bridging probabilistic and SSL models. \\
+    \hline
 
-    \cite{n4} & Bot-IoT (5\% subset) & Original \& generated (10-best features selected via correlation \& joint entropy analysis) & SVM, RNN, LSTM & N/A & N/A & SVM (10-best): 88.37\%, \newline SVM (full): 99.99\%, \newline RNN (10-best/full): 99.74\%, \newline LSTM (10-best/full): 99.74\% \\
+    \cite{cho2022noncontrastive} & Speech Databases & DINO (Self-Supervised) & Non-contrastive Distillation Loss & English & Outperformed x-vector in emotion/speaker recognition. \\
+    \hline
 
-    \cite{n5} & Bot-IoT & 35 features & Decision Tree, Ensemble Bag, KNN, Linear Discriminant, SVM & N/A & N/A & DT: 99.99\%,\newline Ensemble Bag: 100\%,\newline KNN: 99.98\%,\newline SVM: 99.99\%,\newline LD: 100\% \\
+    \cite{close2023perceive} & Voice Bank+DEMAND & Self-Supervised Speech & Perceptual Distance Loss & English & Superior correlation with human intelligibility vs SNR loss. \\
+    \hline
 
-    \cite{n6} & Custom Malware/Benign Dataset (3400 samples; PE and non-PE) & 34 features (26 from MFCC + Chromagram) & KNN, AdaBoostM1, Random Forest & N/A & N/A & KNN: 90.0\%, \newline AdaBoostM1: 92.2\%, \newline Random Forest: 92.0\% \\
+    \cite{babu2021xlsr} & 128 Languages (436k hrs) & wav2vec 2.0 (2B params) & Cross-lingual Masked Prediction & Multilingual & State-of-the-art on CoVoST-2, lowered WER by 14-34\%. \\
+    \hline
 
-    \cite{n7} & Malimg Dataset (grayscale/RGB malware images) & Grayscale and RGB images (converted from malware binaries) & EfficientNet, Inception V4, Xception, CapsNet & N/A & N/A & EffNet: 95.64\%, \newline Inception V4: 95.98\%, \newline Xception: 89.50\%, \newline CapsNet: 88.64\% \\
+    \cite{ogunremi2023multilingual} & Code-switched corpora & wav2vec 2.0 XLSR & Self-supervised Fine-tuning & African Languages & 20\% absolute WER reduction over scratch hybrid models. \\
+    \hline
 
-    \cite{n9} & VirusShare & 512 features (API sequence length) & MLP, TextCNN, Catak (BiLSTM), BERT-base, DistillBert, DistillMal & N/A & Teacher: BERT \newline Student: TextCNN & MLP: 83.5\% \newline TextCNN: 88.4\% \newline Catak (BiLSTM): 66.3\% \newline BERT-base: 89.2\% \newline DistillBert: 89.0\% \newline DistillMal: 89.1\% \\
+    \cite{holla2022end} & Vaksancaya (78 hrs) & wav2vec 2.0 (Vakyansh) & End-to-end CTC Fine-tuning & Sanskrit & Achieved 5.1\% WER, outperforming state of the art methods. \\
+    \hline
 
-    \cite{n10} & Mal-API-2019 & 128 (sequence length) & LSTM, BiLSTM, GRU, Attention, MultiHeadAttention & N/A & N/A & LSTM: 47.53\%, \newline BiLSTM: 52.88\%, \newline GRU: 47.69\%, \newline Attention: 52.18\%, \newline MultiHeadAttention: 47.69\% \\
+    \cite{vaddepalli2026multilingual} & IndicTTS Telugu & Wav2Vec2-Large-XLSR-53 & CTC + Statistical LM & Telugu & Achieved 17.8 WER and 6.9 CER on complex morphology. \\
+    \hline
 
-    \cite{n11} & IoT-BPR-NSS Testbed \& UNSW IoT & 6 & Random Forest, SVM, Gaussian Naive Bayes & N/A & N/A & \textbf{Testbed:} RForest: 100\%, SVM: 99\%, GNB: 97\% \newline \textbf{UNSW IoT:} RForest: 100\%, SVM: 91\%, GNB: 92\% \\
+    \cite{chen2024meta} & Common Voice, FLEURS & SSL + Meta-Adapter & Meta-initialized Bottlenecks & Low-Resource & Superior parameter adaptation across 12 low-resource languages. \\
+    \hline
 
-    \cite{n12} & Drebin-215, Malgenome-215 \& CICMalDroid2020 & 35 & Random Forest, Logistic Regression, Decision Tree, Gaussian Naive Bayes, SVM & N/A & N/A & RF: Drebin-215: 98.07\%, Malgenome-215: 98.73\%, CICMalDroid2020: 97.98\% \\
+    \cite{lin2022smaller} & Speech Corpora & Compressed Transformers & Distillation & Multilingual & Highlighted crucial trade-offs between model size and RTF. \\
+    \hline
 
-    \cite{n13} & Emotet malware campaign (2,000 obfuscated PowerShell scripts; 2,869 URLs, 2,512 domains) & N/A (LLM prompt-based extraction) & GPT-4, Gemini Pro, Code Llama 34B Instruct, Mixtral 8x7B & N/A & N/A & \textbf{URL extraction accuracy}: GPT-4: 69.56\%, Gemini Pro: 36.84\%, Code Llama: 22.13\%, Mixtral: 11.59\%; \newline \textbf{Domain extraction accuracy}: GPT-4: 88.78\%, Gemini Pro: 55.99\%, Code Llama: 35.46\%, Mixtral: 24.92\% \\
+    \cite{hsu2021hubert} & LibriSpeech & HuBERT & Hidden Unit Masked Prediction & English & 19\% relative WER reduction over wav2vec 2.0. \\
+    \hline
 
-    \cite{n14} & ISCX-2014 \& CTU-13 botnet traffic datasets & Raw traffic bytes (image-based input) & CNN + Bi-LSTM with privacy-adversarial feature extractor trained via mutual information minimization \& federated learning & N/A & N/A & \textbf{CTU-13}: 100\% accuracy/F1 (both FL and non-FL) \newline \textbf{ISCX-2014}: non-FL: Acc=98.44\%, F1=98.95; FL: Acc=96.88\%, F1=97.92 \\
+    \cite{chen2021wavlm} & Multi-domain Corpora & WavLM & Masked Prediction + Denoising & English & State-of-the-art on SUPERB for speech enhancement/ASR. \\
+    \hline
 
-    \cite{n16} & UNSW-NB15, AWID, NSL-KDD (combined; with 30\% poisoning attack simulation) & Network traffic features and packet-level metadata & Asynchronous Advantage Actor-Critic (A3C) deep reinforcement learning (actor-critic) & N/A & N/A & Accuracy: 98.68\%, Precision: 98.4\%, Recall: 98.9\%, FP rate: 1.59\% \\
+    \cite{samin2024banspeech} & BanSpeech Benchmark & wav2vec 2.0 & Cross-lingual Transfer & Bengali & Effective adaptation; struggles with spontaneous speech. \\
+    \hline
 
-    Di-RLU & Bot-IoT (25\% \& 30\% subset) & 34 features of network traffic & A2C, Q-Learning \& Meta RL & Post-hoc weight modification & Teacher: A2C \newline Student: A2C & Best: \textbf{A2C (25\% subset)} Accuracy=99.60\%, F1=99.80\% \\
+    \cite{hossain2024enhancing} & OpenSLR Bengali & wav2vec 2.0 & Self-supervised Fine-tuning & Bengali & Achieved 11.27\% WER and 6.03\% CER. \\
+    \hline
 
+    \cite{biswas2025unified} & Multi-domain Bengali & WavLM & Multi-stage Fine-tuning & Bengali & High robustness against environmental noise and dialects. \\
     \hline \hline
-    \end{tabular}%
+    \end{tabular}
     }
     \label{lit_summary}
 \end{table*}
